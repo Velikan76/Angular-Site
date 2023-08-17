@@ -52,6 +52,7 @@
               "src/assets"
             ],
             "styles": [
+              "C:/Users/AK29026/Desktop/Angular/Angular-Site/node_modules/bulma/css/bulma.css",
               "src/styles.css"
             ],
             "scripts": []
@@ -78,7 +79,13 @@
               "vendorChunk": true,
               "extractLicenses": false,
               "sourceMap": true,
-              "namedChunks": true
+              "namedChunks": true,
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.development.ts"
+                }
+              ]
             }
           },
           "defaultConfiguration": "production"
