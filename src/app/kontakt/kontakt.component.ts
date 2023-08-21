@@ -79,7 +79,7 @@ export class KontaktComponent implements OnInit{
   submitForm() {
 
     const message = `Zlecenie zabicia elfa dla ${this.name}, o treści ${this.message} zostało przyjęte. Rezultat zostanie wysłany na ${this.email}.Łowca Elfów zaczyna robote. A teraz spierdalaj`;
-
+    
     alert(message);
 
   }

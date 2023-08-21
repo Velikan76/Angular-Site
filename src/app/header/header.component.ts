@@ -16,6 +16,7 @@ import { Component } from '@angular/core';
       <div class="navbar-end">
         <a class="navbar-item" routerLink="/">Siedziba</a>
         <a class="navbar-item" routerLink="/Zlecenie">Robota</a>
+        <a class="navbar-item" routerLink="/Formularz">Rynek</a>
       </div>
       </div>
     </div>
