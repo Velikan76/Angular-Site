@@ -9,7 +9,26 @@ import { HomeComponent } from './home/home.component';
 import { KontaktComponent } from './kontakt/kontakt.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { FormComponent } from './form/form.component';
+import { AngularFirestoreModule } from '@angular/fire/compat/firestore/';
+import { AngularFireModule } from '@angular/fire/compat/';
 
+
+
+import {JsonPipe} from '@angular/common';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import {MatInputModule} from '@angular/material/input';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import { ObserversModule } from '@angular/cdk/observers';
+import {MatPaginatorModule} from '@angular/material/paginator';
+
+const firebaseConfig = {
+  apiKey: "AIzaSyBidgGJC1E9T1FypXrUL_9IAp6G5h3zqpU",
+  authDomain: "formularz-angular.firebaseapp.com",
+  projectId: "formularz-angular",
+  storageBucket: "formularz-angular.appspot.com",
+  messagingSenderId: "199554337542",
+  appId: "1:199554337542:web:cde01b5ae1754de759ec87"
+};
 
 @NgModule({
   declarations: [
@@ -18,14 +37,23 @@ import { FormComponent } from './form/form.component';
     FooterComponent,
     HomeComponent,
     KontaktComponent,
-    FormComponent
+    FormComponent,
+
     
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    AngularFireModule.initializeApp(firebaseConfig),
+    MatSlideToggleModule,
+    MatPaginatorModule,
+    JsonPipe,
+    MatFormFieldModule,
+    MatInputModule,
+    ObserversModule,
+    MatPaginatorModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

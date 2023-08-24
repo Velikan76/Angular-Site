@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/compat/firestore/';
+import { Observable, map } from 'rxjs';
+import {MatPaginatorModule} from '@angular/material/paginator';
 
 @Component({
   selector: 'app-form',
@@ -59,30 +62,95 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
     </form>
     </div>
+    <div>
+      <br>
+      <h1>Moje Ostatnie zlecenia</h1>
+    <table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth">
+    <thead>
+      <tr>
+        <td title="name">Imię i Nazwisko</td>
+        <td title="email">Email</td>
+        <td title="message">Załączona Wiadomość</td>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let d of dane$ | async">
+        <td>{{d.name}}</td>
+        <td>{{d.email}}</td>
+        <td>{{d.message}}</td>
+      </tr>
+    </tbody>
+   </table>
+    <mat-paginator [length]="5"
+              [pageSize]="1"
+              [pageSizeOptions]="[1, 2, 3, 100]"
+              aria-label="Select page">
+    </mat-paginator>
+    </div>
     </section>
   
   
   `,
-  styles: [
-  ]
+  styles: []
 })
 export class FormComponent implements OnInit {
+
   myForm: FormGroup;
 
-  constructor(private fb: FormBuilder) {}
+  isSubmit:true;
+  submitMessage = '';
+  dane$ : Observable<any[]>;
+
+  private contactForm:AngularFirestoreCollection<any>;
+
+
+
+  constructor(private fb: FormBuilder, private firestore: AngularFirestore) {}
 
   ngOnInit() {
+    
+    this.contactForm = this.firestore.collection('Enquiry', (ref) => ref.orderBy
+    ('timestamp','desc'));
+    this.dane$ = this.contactForm.valueChanges({});
+
+
     this.myForm = this.fb.group({
       name: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       message: ['', [Validators.required, Validators.minLength(10)]],
     });
+    
   }
 
-  onSubmit(form: FormGroup) {
-    console.log('Name', form.value.name);
-    console.log('Email', form.value.email);
-    console.log('Message', form.value.message);
-  }
+  
+ 
+    onSubmit(value:any) {
+
+      if(this.myForm.valid) {
+        const formData = this.myForm.value;
+        formData.timestamp = new Date();
+        this.contactForm.add(formData)
+        .then(() => {
+          this.submitMessage = 'Wysłano';
+          this.isSubmit = true;
+        })
+        .catch((err) => {
+          console.error(err);
+        })
+      }
+    //this.contactForm.add(value).then(res=>{
+        //this.submitMessage = 'Przesłane';
+      //})
+      //.catch(err=>{
+        //console.log(err);
+      //})
+
+      //this.isSubmit = true;
+    }
+
+    //console.log('Name', form.value.name);
+    //console.log('Email', form.value.email);
+    //console.log('Message', form.value.message);
+  
 
 }

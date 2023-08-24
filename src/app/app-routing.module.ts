@@ -24,7 +24,6 @@ const routes: Routes = [
     path: 'Formularz',
     component: FormComponent
   }
-
 ];
 
 @NgModule({
