@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/compat/firestore/';
 import { Observable, map } from 'rxjs';
 import {MatPaginatorModule} from '@angular/material/paginator';
+import { AbstractControlService } from '../abstract/abstract-control.service';
 
 @Component({
   selector: 'app-form',
@@ -81,9 +82,10 @@ import {MatPaginatorModule} from '@angular/material/paginator';
       </tr>
     </tbody>
    </table>
-    <mat-paginator [length]="5"
+    <mat-paginator 
+              [length]="5"
               [pageSize]="1"
-              [pageSizeOptions]="[1, 2, 3, 100]"
+              [pageSizeOptions]="[1, 2, 3, 5]"
               aria-label="Select page">
     </mat-paginator>
     </div>
@@ -105,7 +107,8 @@ export class FormComponent implements OnInit {
 
 
 
-  constructor(private fb: FormBuilder, private firestore: AngularFirestore) {}
+
+  constructor(private fb: FormBuilder, private firestore: AngularFirestore, private Filter:AbstractControlService) {}
 
   ngOnInit() {
     
@@ -133,6 +136,7 @@ export class FormComponent implements OnInit {
         .then(() => {
           this.submitMessage = 'Wysłano';
           this.isSubmit = true;
+          this.Filter.ControlMessege('Odebrano Dane');
         })
         .catch((err) => {
           console.error(err);
